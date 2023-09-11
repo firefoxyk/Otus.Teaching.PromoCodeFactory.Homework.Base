@@ -7,6 +7,7 @@ using Otus.Teaching.PromoCodeFactory.Core.Abstractions.Repositories;
 using Otus.Teaching.PromoCodeFactory.Core.Domain.Administration;
 using Otus.Teaching.PromoCodeFactory.WebHost.Models;
 
+
 namespace Otus.Teaching.PromoCodeFactory.WebHost.Controllers
 {
     /// <summary>
@@ -71,5 +72,65 @@ namespace Otus.Teaching.PromoCodeFactory.WebHost.Controllers
 
             return employeeModel;
         }
+        /// <summary>
+        /// Удалить данные сотрудника по Id
+        /// </summary>
+        /// <returns></returns>
+        [HttpDelete("{id:guid}")]
+        public async Task<ActionResult> DeleteEmployeeAsync(Guid id)
+        {
+            var employee = await _employeeRepository.GetByIdAsync(id);
+
+            if (employee == null)
+                return NotFound();
+
+            await _employeeRepository.DeleteAsync(employee);
+
+            return Ok();
+        }
+        /// <summary>
+        /// Добавить данные сотрудника
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<ActionResult<EmployeeResponse>> CreateAsync(UpsertEmployeesRequest request)
+        {
+            var employee = new Employee()
+            {
+                Id = new Guid(),
+                Email = request.Email,
+                FirstName = request.FirstName,
+                LastName = request.LastName,
+                AppliedPromocodesCount = request.AppliedPromocodesCount
+            };
+            await _employeeRepository.CreateAsync(employee);
+
+            return Ok();
+        }
+
+        /// <summary>
+        /// Обновить данные существующего сотрудника на новые
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [HttpPut("{id:guid}")]
+        public async Task<ActionResult<EmployeeResponse>> UpdateEmployeeAsync(Guid id,
+            UpsertEmployeesRequest request)
+        {
+            var employee = await _employeeRepository.GetByIdAsync(id);
+
+            if (employee == null)
+                return NotFound();
+
+            employee.Email = request.Email;
+
+            await _employeeRepository.DeleteAsync(employee);
+            await _employeeRepository.CreateAsync(employee);
+
+            return Ok();
+        }
+
     }
 }
