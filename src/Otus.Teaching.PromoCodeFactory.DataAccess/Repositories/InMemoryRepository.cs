@@ -46,6 +46,5 @@ namespace Otus.Teaching.PromoCodeFactory.DataAccess.Repositories
             await Task.CompletedTask;
         }
 
-
     }
 }

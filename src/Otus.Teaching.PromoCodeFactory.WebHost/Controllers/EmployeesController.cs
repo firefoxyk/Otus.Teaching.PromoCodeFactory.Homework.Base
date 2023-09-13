@@ -117,17 +117,15 @@ namespace Otus.Teaching.PromoCodeFactory.WebHost.Controllers
         /// <returns></returns>
         [HttpPut("{id:guid}")]
         public async Task<ActionResult<EmployeeResponse>> UpdateEmployeeAsync(Guid id,
-            UpsertEmployeesRequest request)
+            UpsertEmployeesRequest request) 
         {
             var employee = await _employeeRepository.GetByIdAsync(id);
+            if (employee == null) return NotFound();
 
-            if (employee == null)
-                return NotFound();
-
-            employee.Email = request.Email;
-
-            await _employeeRepository.DeleteAsync(employee);
-            await _employeeRepository.CreateAsync(employee);
+            if(employee.Email!=null) employee.Email = request.Email;
+            if (employee.Email != null)  employee.FirstName = request.FirstName;
+            if (employee.Email != null) employee.LastName = request.LastName;
+            if (employee.Email != null) employee.AppliedPromocodesCount = request.AppliedPromocodesCount;
 
             return Ok();
         }

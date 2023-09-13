@@ -20,4 +20,4 @@ namespace Otus.Teaching.PromoCodeFactory.WebHost
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
     }
-}
+} 
