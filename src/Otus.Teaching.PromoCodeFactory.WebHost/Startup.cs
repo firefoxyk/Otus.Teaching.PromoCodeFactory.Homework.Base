@@ -22,9 +22,10 @@ namespace Otus.Teaching.PromoCodeFactory.WebHost
             //происходит регистрация сервисов (сервисы - любой функционал, кот могут исп др части приложения (email, БД)
         {
             services.AddControllers();
-            services.AddScoped(typeof(IRepository<Employee>), (x) => 
-                new InMemoryRepository<Employee>(FakeDataFactory.Employees));
-            services.AddScoped(typeof(IRepository<Role>), (x) => 
+
+            services.AddSingleton(typeof(IRepository<Employee>), (x) =>
+                 new InMemoryRepository<Employee>(FakeDataFactory.Employees));
+            services.AddSingleton(typeof(IRepository<Role>), (x) =>
                 new InMemoryRepository<Role>(FakeDataFactory.Roles));
 
             services.AddOpenApiDocument(options =>

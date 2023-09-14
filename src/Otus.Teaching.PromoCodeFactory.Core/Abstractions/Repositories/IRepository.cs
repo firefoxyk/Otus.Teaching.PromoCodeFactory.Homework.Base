@@ -14,6 +14,6 @@ namespace Otus.Teaching.PromoCodeFactory.Core.Abstractions.Repositories
         Task<T> GetByIdAsync(Guid id);
         Task DeleteAsync(Employee employee);
         Task CreateAsync(Employee employee);
-
+        Task UpdateAsync(T employee);
     }
 }

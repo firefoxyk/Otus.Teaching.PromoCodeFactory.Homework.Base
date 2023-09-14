@@ -46,5 +46,12 @@ namespace Otus.Teaching.PromoCodeFactory.DataAccess.Repositories
             await Task.CompletedTask;
         }
 
+        public async Task UpdateAsync(T employee)
+        {
+            var temp = Data.FirstOrDefault(e => e.Id != employee.Id);
+            temp = employee;
+            await Task.CompletedTask;
+        }
+
     }
 }
